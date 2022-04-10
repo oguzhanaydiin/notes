@@ -40,7 +40,7 @@ Now you can "npm start" the application.
 # Adding React-Bootstrap:
 
 * 1 - "npm install react-bootstrap bootstrap"
-*1 2 - Add the "import 'bootstrap/dist/css/bootstrap.css';" line to index.js file
+* 2 - Add the "import 'bootstrap/dist/css/bootstrap.css';" line to index.js file
 
 Now you can import any bootstrap component and use in any function.
 
