@@ -20,8 +20,9 @@ import App from './App';
 
 ReactDOM.render (<App />, document.getElementById('root'));
 
-3-> Create App.js file inside src folder and create a generic App function (rafce command should help):
+* 3 - Create App.js file inside src folder and create a generic App function (rafce command should help):
 
+```
 import React from 'react'
 
 const App = () => {
@@ -31,13 +32,15 @@ const App = () => {
 }
 
 export default App;
+```
 
-Finally-> Now you can "npm start" the application.
+## Finally
+Now you can "npm start" the application.
 
-Adding React-Bootstrap:
+# Adding React-Bootstrap:
 
-1-> "npm install react-bootstrap bootstrap"
-2-> Add the "import 'bootstrap/dist/css/bootstrap.css';" line to index.js file
+* 1 - "npm install react-bootstrap bootstrap"
+*1 2 - Add the "import 'bootstrap/dist/css/bootstrap.css';" line to index.js file
 
 Now you can import any bootstrap component and use in any function.
 
