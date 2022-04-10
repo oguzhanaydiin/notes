@@ -6,11 +6,12 @@ cd my-app
 npm start
 ```
 
-For personalization i generally delete src folder. After deleting src folder deleting all items except "index.html", "manifest.json" and "robots.txt" inside public folder.
-Personalization guide after deleting those folders:
+## For personalization i generally delete src folder. After deleting src folder deleting all items except "index.html", "manifest.json" and "robots.txt" inside public folder.
 
-1-> Create src folder.
-2-> Create "index.js" file inside src folder and write down code below:
+## Personalization guide after deleting those folders:
+
+1 * Create src folder.
+2 * Create "index.js" file inside src folder and write down code below:
 
 import React from 'react';
 import ReactDOM from 'react-dom';
