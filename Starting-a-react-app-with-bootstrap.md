@@ -47,6 +47,7 @@ Now you can import any bootstrap component and use in any function.
 Example: 
 import Button from 'react-bootstrap/Button';
 
+```
 export default function ButtonExample() {
   return (
     <>
@@ -58,4 +59,5 @@ export default function ButtonExample() {
     </>
   );
 }
+```
 
