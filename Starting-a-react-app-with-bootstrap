@@ -1,8 +1,8 @@
 Create a New React App:
 
-    npx create-react-app my-app
-    cd my-app
-    npm start
+        npx create-react-app my-app
+        cd my-app
+        npm start
 
 For personalization i generally delete src folder. After deleting src folder deleting all items except "index.html", "manifest.json" and "robots.txt" inside public folder.
 Personalization guide after deleting those folders:
