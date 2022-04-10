@@ -10,8 +10,8 @@ npm start
 
 ## Personalization guide after deleting those folders:
 
-1 * Create src folder.
-2 * Create "index.js" file inside src folder and write down code below:
+* 1 - Create src folder.
+* 2 - Create "index.js" file inside src folder and write down code below:
 
 import React from 'react';
 import ReactDOM from 'react-dom';
