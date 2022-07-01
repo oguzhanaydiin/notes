@@ -8,4 +8,7 @@ List<String> myList = [
   'aydin',
   'istanbul'
 ];
+
+int index = myList.indexOf('oguz');
+myList.insert(2,'a');
 ```
