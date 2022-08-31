@@ -1,0 +1,37 @@
+Bizim apigateway imizden diğer servislere gidecek bir controller yazdığımızda, http aggregation yapmaya çalıştığımızda,
+tokena ihtiyacımız olduğu durumlarda (normalde apigatewaye dışarıdan token geliyor ama direkt kendi controllerı dışarı ulaşırken tokena sahip olmayacak)
+HttpClientDelegating diye bir duruma ihtiyacımız olacak.
+
+Öncelikle bir HttpClientDelegatingHandler isimli bir sınıf oluşturuyoruz. Bu sınıf DelegatingHandler sınıfından türeyecek.
+
+private readonly IHttpContextAccessor _httpContextAccessor;
+public HttpClientDelegatingHandler(IHttpContextAccessor _httpContextAccessor)
+{
+	this._httpContextAccessor = _httpContextAccessor;
+}
+
+Dependency injection ile program kısmında oluşturduğumuz IHttpContextAccessor sınıfını alıyoruz.
+
+Daha sonra DelegatingHandler sınıfının "SendAsync" fonksiyonunu override ediyoruz. 
+Httpclient'da send işlemi yapılmadan önce (post, get, vs. herhangi bir istek), bu istek tetiklenmeden önce bir token set etmek istiyoruz.
+
+httpContextAccessor'umuza ulaşıp request.Headers içersinde "Authorization" isminde bir parametre var mı diye bakıyoruz. Eğer varsa,
+eskimiş olacağını düşünüp güncelliyoruz.
+
+var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+
+if(!string.IsNullOrEmpty(authorizationHeader))
+{
+	if(request.Headers.Contains("Authorization"))
+		request.Headers.Remove("Authorization");
+		
+	request.Headers.Add("Authorization", new List<string>(){ authorizationHeader});
+}
+
+Sonra bu HttpClientDelegatingHandler classımızı, clientlarımıza ekliyoruz.
+
+builder.Services.AddHttpClient("basket", c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["urls:basket"]);
+})
+    .AddHttpMessageHandler<HttpClientDelegatingHandler>();

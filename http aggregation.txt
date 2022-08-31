@@ -1,0 +1,6 @@
+http aggregation
+apigateway in üzerine method yazacağız, catalog servisten datayı alacak sonra bu datayı basket servise yazacak.
+
+bu yüzden sepete ürün eklerken product id ve kullanıcının id sine ihtiyacımız var.
+
+bu aggregation methodunu, apigatewaydeki controllera yazıyoruz.

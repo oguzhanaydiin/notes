@@ -1,0 +1,22 @@
+httpclient üretmek
+
+ilk olarak program.cs dosyasında servislere bir IHttpContextAccessor ekleyeceğiz.
+
+
+builder.Services.AddSingleton<IHttpContextAccessor>();
+
+Daha sonra üretmek istediğimiz her http client için aşağıdaki gibi instancelar yaratıp bunları servislere ekleyeceğiz.
+
+
+builder.Services.AddHttpClient("basket", c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["urls:basket"]);
+});
+
+builder.Services.AddHttpClient("catalog", c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["urls:catalog"]);
+});
+
+artık her "basket" veya "catalog" isimli bir client üretmek istediğimizde, bize bunların urllerini configuration dosyasından alıp oluşturacak.
+

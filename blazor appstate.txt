@@ -1,0 +1,91 @@
+Blazor'da State Management
+
+Öncelikle Blazor Web Appimizi yönetebilmek için Infrastructure altında bir AppStateManager sınıfı oluşturmalıyız.
+
+public class AppStateManager
+{
+	public event Action<ComponentBase, string> StateChanged;
+	
+	public void UpdateCart(ComponentBase component)
+	{
+		StateChanged?.Invoke(component, "updatebasket");
+	}
+}
+
+Bu AppStateManager sınıfımızda Action tipinde bir event olacak. State değişeceği durumlarda bu action tetiklenecek.
+
+Bu AppStateManager sınıfımızı Program.cs kısmında uygulamamıza Singleton olarak inject etmeliyiz.
+
+builder.Services.AddSingleton<AppStateManager>();
+
+Daha sonra bu sınıfımızı toolBar sayfamızda çağırıyoruz.
+
+
+[Inject]
+AppStateManager _appState {get; set;}
+
+Inject ettiğimiz AppStateManager'ımızı uygulamamız initialize edilirken sayfaya dahil etmemiz gerekiyor.
+OnInitializedAsync veya OnAfterRender fonksiyonlarımızdan birinde bunu yapabiliriz.
+
+
+protected override void OnAfterRender(bool firstRender)
+{
+	if(firstRender)
+		_appState.StateChanged += async (source, property) => await AppState_StateChanged(source, proprety);
+		
+		//_appState.StateChanged'e componentlerimizle üye olduk. Oluşturduğumuz AppState_StateChanged fonksiyonuna gidecek.
+}
+
+private async Task AppState_StateChanged(ComponentBase source, string property)
+{
+	//eğer üye olan bu class ise dön
+	if(source == this)
+		return
+		
+	else if(property == "updateBasket")
+	{
+		await calculateItemCount();
+	}
+	
+	else if(property == "login")
+	{
+		await calculateItemCount();
+	}
+	
+	await InvokeAsync(StateHasChanged);
+	
+}
+
+private async Task<int> calculateItemCount()
+{
+	isLoggedIn = identityService.IsLoggedIn;
+	
+	if(!isLoggedIn)
+		return 0;
+		
+	var basket = await basketService.GetBasket();
+	
+	var count = basket.Items == null ? 0: basket.Items.Sum(i=>i.Quantity);
+
+	basketItemCount = count;
+	
+	return count;
+}
+
+
+
+Daha sonra  herhangi bir sınıfımızda state değiştirmeye çalışıyoruz.
+Mesela CatalogPage.razor'da ekleyelim.
+
+[Inject]
+AppStateManager _appState {get; set;}
+
+public async Task AddToCart(CatalogItem catalogItem)
+{
+	if(!identityService.IsLoggedIn){
+		return;
+	}
+	
+	await basketService.AddItemToBasket(catalogItem.Id);
+	_appState.UpdateCart(this);
+}
